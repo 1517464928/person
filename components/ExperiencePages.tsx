@@ -202,8 +202,6 @@ export default function ExperiencePages({
     const show = isActive && pageIndex === 0;
     const number = String(index).padStart(2, "0");
     const heroV = expHeroVariants(reducedMotion);
-    // Horizontal variant: when on hero page, use heroToDetail for outgoing feel.
-    const hV = heroToDetailVariants(reducedMotion);
 
     return (
       <motion.div
@@ -312,20 +310,16 @@ export default function ExperiencePages({
           )}
 
           {panels.length > 0 && !isEditing && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={show ? { opacity: 1 } : { opacity: 0 }}
-              transition={reducedMotion ? { duration: 0 } : { duration: 0.4, delay: 0.4 }}
-              className="mt-10 flex items-center gap-1 text-sm text-[#1a1a1a]/40"
+            <motion.button
+              variants={heroV}
+              initial="hidden"
+              animate={show ? "visible" : "hidden"}
+              custom={0.4}
+              onClick={nextPage}
+              className="mt-10 inline-flex items-center gap-2 px-8 py-4 bg-[#f97316] text-white rounded-full text-lg font-medium hover:bg-[#ea580c] transition-colors cursor-pointer"
             >
-              <span>向左滑动查看详情</span>
-              <motion.div
-                animate={reducedMotion ? {} : { x: [0, 4, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-              >
-                <ChevronRight size={16} />
-              </motion.div>
-            </motion.div>
+              GO <ChevronRight size={20} />
+            </motion.button>
           )}
         </div>
       </motion.div>
@@ -342,8 +336,6 @@ export default function ExperiencePages({
     const show = isActive && pageIndex === panelIndex + 1;
     const number = `${String(index).padStart(2, "0")}-${panelIndex + 1}`;
     const detailV = expDetailVariants(reducedMotion);
-    // Horizontal transition: detail pages use parallax slide.
-    const hV = panelIndex === 0 ? heroToDetailVariants(reducedMotion) : detailToDetailVariants(reducedMotion);
 
     return (
       <motion.div

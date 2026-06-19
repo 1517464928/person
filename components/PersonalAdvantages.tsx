@@ -178,7 +178,7 @@ export default function PersonalAdvantages({
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
     >
-      {/* Bounce indicator */}
+      {/* Bounce indicator — arrow only, no text */}
       <AnimatePresence>
         {bounceDown && (
           <motion.div
@@ -187,7 +187,7 @@ export default function PersonalAdvantages({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.3 }}
-            className="absolute bottom-24 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none"
+            className="absolute bottom-24 left-1/2 -translate-x-1/2 z-30 pointer-events-none"
           >
             <motion.span
               initial={{ y: 0 }}
@@ -197,9 +197,6 @@ export default function PersonalAdvantages({
             >
               <ChevronDown size={28} />
             </motion.span>
-            <span className="text-sm text-[#1a1a1a]/50 bg-white/80 backdrop-blur px-4 py-1.5 rounded-full shadow-sm">
-              继续向右探索，完成所有优势查看后才可继续向下
-            </span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -250,21 +247,6 @@ export default function PersonalAdvantages({
               >
                 GO <ChevronRight size={20} />
               </motion.button>
-              <motion.p
-                variants={advV}
-                initial="hidden"
-                animate={heroInView ? "visible" : "hidden"}
-                custom={0.28}
-                className="mt-6 text-sm text-[#1a1a1a]/40 flex items-center justify-center gap-1"
-              >
-                <motion.span
-                  animate={!reducedMotion ? { x: [0, 6, 0] } : {}}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  →
-                </motion.span>
-                向右滑动，继续探索
-              </motion.p>
             </motion.div>
           </div>
 
@@ -348,35 +330,6 @@ export default function PersonalAdvantages({
                       >
                         GO {isLast ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                       </motion.button>
-                      <motion.p
-                        variants={advV}
-                        initial="hidden"
-                        animate={pageInView ? "visible" : "hidden"}
-                        custom={0.32}
-                        className="mt-5 text-sm text-[#1a1a1a]/40 flex items-center justify-center md:justify-start gap-1"
-                      >
-                        {isLast ? (
-                          <>
-                            <motion.span
-                              animate={!reducedMotion ? { y: [0, 6, 0] } : {}}
-                              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                            >
-                              ↓
-                            </motion.span>
-                            继续向下，进入 AI 项目
-                          </>
-                        ) : (
-                          <>
-                            <motion.span
-                              animate={!reducedMotion ? { x: [0, 6, 0] } : {}}
-                              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                            >
-                              →
-                            </motion.span>
-                            向右滑动，看下一条优势
-                          </>
-                        )}
-                      </motion.p>
                     </div>
                   </div>
                 </motion.div>
