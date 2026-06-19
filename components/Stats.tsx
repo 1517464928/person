@@ -9,7 +9,7 @@ export default function StatsSection() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/data.json").then(r => r.json()).then(d => {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/data.json`).then(r => r.json()).then(d => {
       setStats(d.stats || []);
       setLoading(false);
     }).catch(() => setLoading(false));

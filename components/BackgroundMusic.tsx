@@ -17,7 +17,7 @@ export default function BackgroundMusic() {
     const muted = savedMuted === "true";
     setIsMuted(muted);
 
-    const audio = new Audio("/audio/bg-music.mp3");
+    const audio = new Audio(`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/audio/bg-music.mp3`);
     audio.loop = true;
     audio.volume = 0.4;
     audio.muted = muted;

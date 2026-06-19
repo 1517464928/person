@@ -13,7 +13,7 @@ export default function Hero() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/data.json")
+    fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/data.json`)
       .then((r) => r.json())
       .then((d) => {
         if (d.siteConfig) {

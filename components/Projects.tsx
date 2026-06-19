@@ -24,7 +24,7 @@ export default function ProjectsSection({
   const [modalVideo, setModalVideo] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/data.json")
+    fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/data.json`)
       .then((r) => r.json())
       .then((d) => {
         setItems(d.projects || []);

@@ -115,7 +115,7 @@ export default function PersonalExperience() {
 
   useEffect(() => {
     setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-    fetch("/data.json")
+    fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/data.json`)
       .then((r) => r.json())
       .then((d) => {
         setItems(d.experiences || []);
