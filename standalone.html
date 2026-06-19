@@ -1,0 +1,1434 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>张攀岳 - 个人网站</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#faf7f4;
+  --bg-warm:#f5f0e8;
+  --orange:#f97316;
+  --orange-light:#fb923c;
+  --orange-dark:#ea580c;
+  --orange-50:#fff7ed;
+  --orange-100:#ffedd5;
+  --orange-200:#fed7aa;
+  --text:#1c1917;
+  --text-secondary:#57534e;
+  --text-muted:#8c8884;
+  --white:#ffffff;
+  --border:#e7e5e4;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.05);
+  --shadow:0 4px 24px rgba(0,0,0,.08);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.12);
+  --radius:16px;
+  --radius-lg:24px;
+  --transition:.3s cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:auto;font-size:16px}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+#app{
+  height:100vh;
+  overflow-y:auto;
+  scroll-snap-type:y mandatory;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+}
+.section{
+  height:100vh;
+  width:100%;
+  scroll-snap-align:start;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.section-inner{
+  width:100%;
+  max-width:520px;
+  margin:0 auto;
+  padding:40px 28px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+}
+.section-label{
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--orange);
+  margin-bottom:8px;
+}
+.section-title{
+  font-size:36px;
+  font-weight:800;
+  color:var(--text);
+  text-align:center;
+  line-height:1.2;
+  margin-bottom:12px;
+  letter-spacing:-.01em;
+}
+.section-desc{
+  font-size:16px;
+  color:var(--text-secondary);
+  text-align:center;
+  line-height:1.7;
+  max-width:400px;
+}
+
+/* Progress Bar */
+#progress-bar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:3px;
+  z-index:1000;
+  pointer-events:none;
+}
+#progress-bar .track{
+  width:100%;
+  height:100%;
+  background:var(--border);
+}
+#progress-bar .fill{
+  height:100%;
+  background:var(--orange);
+  transition:width .25s ease;
+}
+
+/* Nav Dots */
+#nav-dots{
+  position:fixed;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:1000;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.nav-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--orange-200);
+  cursor:pointer;
+  transition:all var(--transition);
+  position:relative;
+}
+.nav-dot:hover{background:var(--orange-light);transform:scale(1.3)}
+.nav-dot.active{background:var(--orange);transform:scale(1.4);box-shadow:0 0 12px rgba(249,115,22,.4)}
+.nav-dot.active::after{
+  content:'';
+  position:absolute;
+  top:-3px;left:-3px;right:-3px;bottom:-3px;
+  border-radius:50%;
+  border:2px solid var(--orange);
+  opacity:.5;
+}
+
+/* Music Button */
+#music-btn{
+  position:fixed;
+  bottom:24px;
+  left:24px;
+  z-index:1000;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:var(--white);
+  border:1.5px solid var(--border);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:var(--shadow);
+  transition:all var(--transition);
+  color:var(--text-secondary);
+}
+#music-btn:hover{box-shadow:var(--shadow-lg);color:var(--orange);border-color:var(--orange-200)}
+#music-btn.playing{background:var(--orange);color:var(--white);border-color:var(--orange)}
+#music-btn svg{width:20px;height:20px}
+
+/* ============ INTRO SCREEN ============ */
+.intro-avatar{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--orange),var(--orange-dark));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:40px;
+  font-weight:700;
+  margin-bottom:24px;
+  box-shadow:0 8px 32px rgba(249,115,22,.3);
+}
+.intro-name{
+  font-size:42px;
+  font-weight:800;
+  color:var(--text);
+  margin-bottom:6px;
+  letter-spacing:-.02em;
+}
+.intro-title-sub{
+  font-size:15px;
+  color:var(--orange);
+  font-weight:600;
+  margin-bottom:16px;
+}
+.intro-desc{
+  font-size:15px;
+  color:var(--text-secondary);
+  text-align:center;
+  line-height:1.8;
+  max-width:380px;
+  margin-bottom:24px;
+}
+.scroll-hint{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  color:var(--text-muted);
+  font-size:12px;
+  animation:bounceDown 2s infinite;
+}
+.scroll-hint svg{width:20px;height:20px}
+@keyframes bounceDown{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(8px)}
+}
+
+/* ============ EXPERIENCE HORIZONTAL ============ */
+.h-container{
+  width:100%;
+  height:100vh;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  display:flex;
+  -webkit-overflow-scrolling:touch;
+}
+.h-container::-webkit-scrollbar{display:none}
+.h-panel{
+  min-width:100vw;
+  height:100vh;
+  scroll-snap-align:start;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.h-panel-inner{
+  width:100%;
+  max-width:560px;
+  padding:40px 28px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  min-height:100vh;
+}
+.exp-hero-tag{
+  display:inline-block;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.06em;
+  color:var(--white);
+  background:var(--orange);
+  padding:5px 14px;
+  border-radius:20px;
+  margin-bottom:16px;
+}
+.exp-hero-title{
+  font-size:32px;
+  font-weight:800;
+  color:var(--text);
+  line-height:1.2;
+  margin-bottom:6px;
+}
+.exp-hero-subtitle{
+  font-size:15px;
+  color:var(--text-secondary);
+  font-weight:500;
+  margin-bottom:6px;
+}
+.exp-hero-date{
+  font-size:13px;
+  color:var(--text-muted);
+  margin-bottom:14px;
+}
+.exp-hero-desc{
+  font-size:15px;
+  color:var(--text-secondary);
+  line-height:1.7;
+  max-width:420px;
+  margin-bottom:28px;
+}
+
+/* Panel content */
+.panel-label{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--orange);
+  margin-bottom:12px;
+}
+.panel-title{
+  font-size:28px;
+  font-weight:800;
+  color:var(--text);
+  margin-bottom:24px;
+  text-align:center;
+}
+.panel-list{
+  list-style:none;
+  text-align:left;
+  width:100%;
+  max-width:460px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-bottom:32px;
+}
+.panel-list li{
+  position:relative;
+  padding-left:22px;
+  font-size:15px;
+  color:var(--text-secondary);
+  line-height:1.7;
+}
+.panel-list li::before{
+  content:'';
+  position:absolute;
+  left:0;
+  top:9px;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--orange-200);
+}
+.panel-text{
+  text-align:left;
+  font-size:15px;
+  color:var(--text-secondary);
+  line-height:1.9;
+  max-width:460px;
+  margin-bottom:32px;
+}
+
+/* Dots for horizontal nav */
+.h-dots{
+  display:flex;
+  gap:8px;
+  margin-top:20px;
+  position:absolute;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+}
+.h-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--orange-200);
+  transition:all var(--transition);
+}
+.h-dot.active{background:var(--orange);transform:scale(1.3)}
+
+/* GO Button */
+.go-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:14px 32px;
+  border-radius:50px;
+  background:var(--orange);
+  color:var(--white);
+  border:none;
+  cursor:pointer;
+  font-size:15px;
+  font-weight:600;
+  transition:all var(--transition);
+  box-shadow:0 4px 20px rgba(249,115,22,.3);
+  white-space:nowrap;
+  -webkit-tap-highlight-color:transparent;
+}
+.go-btn:hover{background:var(--orange-dark);box-shadow:0 6px 28px rgba(249,115,22,.4);transform:translateY(-1px)}
+.go-btn:active{transform:scale(.97)}
+.go-btn svg{width:20px;height:20px}
+
+/* ============ ADVANTAGES ============ */
+.adv-hero-tag{
+  display:inline-block;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.06em;
+  color:var(--white);
+  background:var(--orange);
+  padding:5px 14px;
+  border-radius:20px;
+  margin-bottom:16px;
+}
+.adv-title{
+  font-size:36px;
+  font-weight:800;
+  color:var(--text);
+  margin-bottom:12px;
+}
+.adv-desc{
+  font-size:16px;
+  color:var(--text-secondary);
+  text-align:center;
+  max-width:360px;
+  margin-bottom:28px;
+  line-height:1.7;
+}
+
+.adv-card-icon{
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:var(--orange-50);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--orange);
+  margin-bottom:20px;
+  box-shadow:0 4px 16px rgba(249,115,22,.1);
+}
+.adv-card-icon svg{width:34px;height:34px}
+.adv-card-title{
+  font-size:24px;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:10px;
+  text-align:center;
+}
+.adv-card-desc{
+  font-size:15px;
+  color:var(--text-secondary);
+  text-align:center;
+  max-width:380px;
+  line-height:1.8;
+}
+
+.arrow-bounce{
+  position:absolute;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+  color:var(--orange-200);
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .3s;
+}
+.arrow-bounce.show{
+  opacity:1;
+  animation:arrowBounceUp .5s ease 3;
+}
+@keyframes arrowBounceUp{
+  0%,100%{transform:translateX(-50%) translateY(0)}
+  50%{transform:translateX(-50%) translateY(-16px)}
+}
+
+/* ============ PROJECTS ============ */
+.projects-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  width:100%;
+  max-width:500px;
+  margin-bottom:16px;
+}
+.project-card{
+  background:var(--white);
+  border-radius:var(--radius);
+  overflow:hidden;
+  cursor:pointer;
+  box-shadow:var(--shadow-sm);
+  transition:all var(--transition);
+  border:1px solid var(--border);
+  -webkit-tap-highlight-color:transparent;
+}
+.project-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.project-card:active{transform:scale(.97)}
+.project-video-wrap{
+  width:100%;
+  aspect-ratio:16/10;
+  background:var(--orange-50);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.project-video-wrap video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.project-play-icon{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:rgba(0,0,0,.55);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  pointer-events:none;
+  transition:all var(--transition);
+}
+.project-card:hover .project-play-icon{background:var(--orange)}
+.project-play-icon svg{width:16px;height:16px;margin-left:2px}
+.project-card-title{
+  font-size:13px;
+  font-weight:600;
+  color:var(--text);
+  padding:10px 12px 4px;
+  line-height:1.4;
+}
+.project-card-desc{
+  font-size:11px;
+  color:var(--text-muted);
+  padding:0 12px 12px;
+  line-height:1.4;
+}
+.projects-footer{
+  font-size:12px;
+  color:var(--text-muted);
+  text-align:center;
+  margin-top:12px;
+  line-height:1.6;
+  max-width:420px;
+}
+
+/* Video Modal */
+#video-modal{
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,.85);
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s;
+}
+#video-modal.open{opacity:1;pointer-events:auto}
+#video-modal .modal-close{
+  position:absolute;
+  top:20px;
+  right:20px;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:rgba(255,255,255,.15);
+  border:none;
+  color:white;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  transition:background .2s;
+  z-index:2;
+}
+#video-modal .modal-close:hover{background:rgba(255,255,255,.25)}
+#video-modal video{
+  max-width:90vw;
+  max-height:85vh;
+  border-radius:12px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+
+/* ============ ASK ME ============ */
+.ask-header{
+  text-align:center;
+  margin-bottom:24px;
+}
+.ask-title{
+  font-size:32px;
+  font-weight:800;
+  color:var(--text);
+  margin-bottom:6px;
+}
+.ask-subtitle{
+  font-size:15px;
+  color:var(--text-secondary);
+}
+.chat-area{
+  width:100%;
+  max-width:460px;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  max-height:55vh;
+}
+.chat-messages{
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding-bottom:16px;
+}
+.chat-bubble{
+  max-width:80%;
+  padding:12px 16px;
+  border-radius:18px;
+  font-size:14px;
+  line-height:1.6;
+  animation:fadeInUp .3s ease;
+}
+.chat-bubble.user{
+  align-self:flex-end;
+  background:var(--orange);
+  color:white;
+  border-bottom-right-radius:6px;
+}
+.chat-bubble.bot{
+  align-self:flex-start;
+  background:var(--white);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-bottom-left-radius:6px;
+}
+.chat-bubble.typing{
+  background:var(--white);
+  border:1px solid var(--border);
+  padding:14px 20px;
+}
+.typing-dots{display:flex;gap:4px}
+.typing-dots span{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--text-muted);
+  animation:typingBounce 1.2s infinite;
+}
+.typing-dots span:nth-child(2){animation-delay:.15s}
+.typing-dots span:nth-child(3){animation-delay:.3s}
+@keyframes typingBounce{
+  0%,60%,100%{transform:translateY(0)}
+  30%{transform:translateY(-8px)}
+}
+.chat-input-wrap{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+.chat-input-wrap input{
+  flex:1;
+  padding:12px 18px;
+  border-radius:50px;
+  border:1.5px solid var(--border);
+  background:var(--white);
+  font-size:14px;
+  outline:none;
+  transition:border-color var(--transition);
+  color:var(--text);
+  font-family:inherit;
+}
+.chat-input-wrap input:focus{border-color:var(--orange-light)}
+.chat-input-wrap input::placeholder{color:var(--text-muted)}
+.chat-send-btn{
+  width:44px;height:44px;
+  border-radius:50%;
+  background:var(--orange);
+  border:none;
+  color:white;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all var(--transition);
+  flex-shrink:0;
+  box-shadow:0 4px 12px rgba(249,115,22,.3);
+}
+.chat-send-btn:hover{background:var(--orange-dark)}
+.chat-send-btn:active{transform:scale(.95)}
+.chat-send-btn svg{width:18px;height:18px}
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ============ RESPONSIVE ============ */
+@media(min-width:768px){
+  .section-inner{padding:60px 40px}
+  .section-title{font-size:44px}
+  .exp-hero-title{font-size:38px}
+  .adv-title{font-size:44px}
+  .projects-grid{grid-template-columns:1fr 1fr;gap:18px;max-width:600px}
+  .project-card-title{font-size:14px}
+  .project-card-desc{font-size:12px}
+  #nav-dots{right:24px;gap:12px}
+  .nav-dot{width:11px;height:11px}
+}
+@media(min-width:1024px){
+  .section-inner{max-width:600px}
+  .h-panel-inner{max-width:640px}
+  .projects-grid{max-width:720px;gap:24px}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar">
+  <div class="track"><div class="fill" style="width:0%"></div></div>
+</div>
+
+<nav id="nav-dots"></nav>
+
+<button id="music-btn" aria-label="播放/暂停音乐" title="播放/暂停背景音乐">
+  <svg id="music-icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+  <svg id="music-icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+</button>
+
+<audio id="bgm" loop preload="none" src="public/audio/bg-music.mp3"></audio>
+
+<div id="app">
+  <!-- SCREEN 0: INTRO -->
+  <section class="section" data-index="0">
+    <div class="section-inner">
+      <div class="intro-avatar">张</div>
+      <div class="intro-title-sub">关于我</div>
+      <h1 class="intro-name">张攀岳</h1>
+      <p class="intro-desc">向下滚动，探索我的教育、实习、创业与校园经历。</p>
+      <div class="scroll-hint">
+        <span>向下滚动</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 1: EXPERIENCE 1 - 学大教育 -->
+  <section class="section" data-index="1">
+    <div class="h-container" id="h-exp1">
+      <div class="h-panel">
+        <div class="h-panel-inner">
+          <span class="exp-hero-tag">实习经历</span>
+          <h2 class="exp-hero-title">学大教育</h2>
+          <p class="exp-hero-subtitle">B 端产品运营实习生</p>
+          <p class="exp-hero-date">2026.01 - 2026.06</p>
+          <p class="exp-hero-desc">负责 B 端 SAAS 营销产品的全国运营，助力关键指标持续提升、维持业务稳定运转</p>
+          <button class="go-btn" onclick="scrollH('h-exp1',1)">
+            开始探索 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="h-dots"><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span></div>
+        </div>
+      </div>
+      <div class="h-panel">
+        <div class="h-panel-inner">
+          <span class="panel-label">工作内容</span>
+          <h3 class="panel-title">日常运营与维护</h3>
+          <ul class="panel-list">
+            <li>负责全国范围内 B 端 SaaS 营销产品的日常运营维护，覆盖超过 200 个校区客户</li>
+            <li>建立标准化运营流程（SOP），编写运营手册，降低新员工上手成本</li>
+            <li>定期收集客户反馈，输出需求分析报告并推动产品迭代优化</li>
+            <li>协同产研团队进行功能测试与上线，确保版本迭代零重大事故</li>
+            <li>搭建数据监控看板，实时追踪核心业务指标异常波动</li>
+            <li>组织线上培训与答疑，提升校区端使用熟练度与满意度</li>
+          </ul>
+          <button class="go-btn" onclick="scrollH('h-exp1',2)">
+            下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="h-dots"><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span></div>
+        </div>
+      </div>
+      <div class="h-panel">
+        <div class="h-panel-inner">
+          <span class="panel-label">工作业绩</span>
+          <h3 class="panel-title">核心成果与数据</h3>
+          <ul class="panel-list">
+            <li>客户续费率同比提升 12%，超额完成季度目标</li>
+            <li>产品日活跃用户数（DAU）在运营期内增长 35%</li>
+            <li>搭建的运营 SOP 使问题响应时效从 48h 缩短至 12h 以内</li>
+            <li>推动上线 3 个重点功能迭代，NPS 评分提升 8 个百分点</li>
+            <li>独立完成竞品分析报告 2 份，被产品团队采纳并落地</li>
+            <li>校园培训覆盖率达到 95%，用户满意度提升至 4.6/5</li>
+          </ul>
+          <button class="go-btn" onclick="scrollH('h-exp1',3)">
+            下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="h-dots"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span></div>
+        </div>
+      </div>
+      <div class="h-panel">
+        <div class="h-panel-inner">
+          <span class="panel-label">个人成长</span>
+          <h3 class="panel-title">这段经历的收获</h3>
+          <p class="panel-text">在学大教育为期六个月的实习中，我从零开始接触 B 端 SaaS 产品运营，完成了从校园思维到职场思维的转变。最大的收获在于学会了如何站在客户视角理解需求，在有限的资源下找到最有效的解决方案。通过独立负责全国范围的产品运营，我锻炼了跨部门沟通协调能力，也深刻体会到数据驱动决策的重要性。每一次客户问题的闭环处理、每一次产品迭代的上线推进，都让我更加确信——运营的本质是用心和专业搭建起产品与用户之间的桥梁。这段经历不仅让我掌握了 B 端运营的实战技能，更培养了我面对复杂问题时的拆解思维与持续优化的习惯。</p>
+          <button class="go-btn" onclick="scrollToSection(2)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            下一段经历
+          </button>
+          <div class="h-dots"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 2: EXPERIENCE 2 - 小白家教群 -->
+  <section class="section" data-index="2">
+    <div class="h-container" id="h-exp2">
+      <div class="h-panel">
+        <div class="h-panel-inner">
+          <span class="exp-hero-tag">创业经历</span>
+          <h2 class="exp-hero-title">小白家教群</h2>
+          <p class="exp-hero-subtitle">负责人</p>
+          <p class="exp-hero-date">2025.05 - 2026.01</p>
+          <p class="exp-hero-desc">参考电商运营中流量—转化—留存的基本逻辑设计宣传与运营策略，从零搭建起覆盖数百人的家教匹配社群</p>
+          <button class="go-btn" onclick="scrollH('h-exp2',1)">
+            开始探索 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="h-dots"><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span></div>
+        </div>
+      </div>
+      <div class="h-panel">
+        <div class="h-panel-inner">
+          <span class="panel-label">项目概况</span>
+          <h3 class="panel-title">从零到一的搭建过程</h3>
+          <ul class="panel-list">
+            <li>参考电商「流量—转化—留存」模型，设计社群运营全链路策略</li>
+            <li>通过校园地推与线上裂变组合打法，冷启动阶段获取首批精准用户</li>
+            <li>制定标准化的家教匹配流程：需求收集 → 画像匹配 → 试课反馈 → 正式签约</li>
+            <li>建立家长与家教双端信用评价体系，保障撮合质量</li>
+            <li>设计分级定价策略，根据学科难度与教师资质差异化收费</li>
+            <li>搭建微信社群矩阵，实现分层运营（意向群 → 成交群 → VIP 群）</li>
+          </ul>
+          <button class="go-btn" onclick="scrollH('h-exp2',2)">
+            下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="h-dots"><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span></div>
+        </div>
+      </div>
+      <div class="h-panel">
+        <div class="h-panel-inner">
+          <span class="panel-label">业绩成果</span>
+          <h3 class="panel-title">数据与成果</h3>
+          <ul class="panel-list">
+            <li>社群累计覆盖家长用户 500+，成功匹配家教对接 200+ 次</li>
+            <li>匹配成功率从初期的 30% 优化至 65%，客户满意度达 4.8/5</li>
+            <li>月度净利润稳定在 3000 - 5000 元，实现可持续盈利</li>
+            <li>积累完善的运营 SOP 文档，可实现团队交接与规模化复制</li>
+          </ul>
+          <button class="go-btn" onclick="scrollH('h-exp2',3)">
+            下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="h-dots"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span></div>
+        </div>
+      </div>
+      <div class="h-panel">
+        <div class="h-panel-inner">
+          <span class="panel-label">能力成长</span>
+          <h3 class="panel-title">创业带来的蜕变</h3>
+          <ul class="panel-list">
+            <li>从 0 到 1 的项目经验：学会在资源有限时找到 MVP 路径并快速验证</li>
+            <li>用户思维养成：深入理解双端用户的真实需求，持续优化撮合体验</li>
+            <li>商业闭环意识：从流量获取到变现复购，建立完整的商业认知框架</li>
+            <li>沟通与协调能力：管理家教团队，处理家长纠纷，积累大量沟通实战经验</li>
+            <li>数据驱动决策：用转化率、留存率等指标指导运营动作，告别拍脑袋</li>
+          </ul>
+          <button class="go-btn" onclick="scrollToSection(3)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            下一段经历
+          </button>
+          <div class="h-dots"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 3: EXPERIENCE 3 - 院团委科创部 -->
+  <section class="section" data-index="3">
+    <div class="h-container" id="h-exp3">
+      <div class="h-panel">
+        <div class="h-panel-inner">
+          <span class="exp-hero-tag">校园经历</span>
+          <h2 class="exp-hero-title">院团委科创部</h2>
+          <p class="exp-hero-subtitle">科创部部长</p>
+          <p class="exp-hero-date">2025.06 - 2026.06</p>
+          <p class="exp-hero-desc">联动多部门合作，主导科创竞赛全流程顺利进行</p>
+          <button class="go-btn" onclick="scrollH('h-exp3',1)">
+            开始探索 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="h-dots"><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span></div>
+        </div>
+      </div>
+      <div class="h-panel">
+        <div class="h-panel-inner">
+          <span class="panel-label">工作内容</span>
+          <h3 class="panel-title">科创赛事全流程管理</h3>
+          <ul class="panel-list">
+            <li>统筹管理院级科创竞赛的报名、评审、答辩、颁奖全流程</li>
+            <li>联动宣传部进行赛事推广，联动外联部获取赞助与嘉宾资源</li>
+            <li>制定竞赛规则与评分标准，确保评审过程公平公正公开</li>
+            <li>组织赛前培训与经验分享会，提升参赛项目质量</li>
+            <li>对接校级科创赛事组委会，完成院内优秀项目的选拔与推荐</li>
+          </ul>
+          <button class="go-btn" onclick="scrollH('h-exp3',2)">
+            下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="h-dots"><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span></div>
+        </div>
+      </div>
+      <div class="h-panel">
+        <div class="h-panel-inner">
+          <span class="panel-label">工作成果</span>
+          <h3 class="panel-title">赛事成绩与影响力</h3>
+          <ul class="panel-list">
+            <li>承办院级科创赛事 3 场，累计覆盖参赛团队 40+ 支、参与学生 200+ 人</li>
+            <li>推荐至校级比赛的项目中，2 项获得校级一等奖、1 项获得省级立项</li>
+            <li>赛事满意度调查评分 4.7/5，获得院团委年度优秀部门表彰</li>
+          </ul>
+          <button class="go-btn" onclick="scrollH('h-exp3',3)">
+            下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="h-dots"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span></div>
+        </div>
+      </div>
+      <div class="h-panel">
+        <div class="h-panel-inner">
+          <span class="panel-label">能力提升</span>
+          <h3 class="panel-title">管理者的成长</h3>
+          <ul class="panel-list">
+            <li>带领 10 人团队完成多场大型活动的策划与执行，锻炼了团队管理与项目统筹能力，学会了如何在时间紧、任务重的情况下合理分配资源、调动团队积极性，确保每场活动都达到预期效果</li>
+            <li>在多部门协调中提升了向上管理与横向沟通能力，能够精准理解各方诉求并找到平衡点，推动项目顺利推进</li>
+          </ul>
+          <button class="go-btn" onclick="scrollToSection(4)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            下一部分
+          </button>
+          <div class="h-dots"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 4: ADVANTAGES -->
+  <section class="section" data-index="4">
+    <div class="h-container" id="h-adv">
+      <div class="h-panel">
+        <div class="h-panel-inner">
+          <span class="adv-hero-tag">核心竞争力</span>
+          <h2 class="adv-title">个人优势</h2>
+          <p class="adv-desc">继续探索，发现我的核心竞争力</p>
+          <button class="go-btn" onclick="scrollH('h-adv',1)">
+            开始探索 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="h-dots" id="adv-dots"></div>
+        </div>
+      </div>
+      <div class="h-panel" data-adv="1">
+        <div class="h-panel-inner">
+          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <h3 class="adv-card-title">换位思考与沟通能力</h3>
+          <p class="adv-card-desc">擅长站在对方角度理解需求，能够快速建立信任关系。无论是与客户、同事还是上级沟通，都能精准把握核心诉求，用对方能理解的方式传达信息，减少沟通摩擦。</p>
+          <button class="go-btn" onclick="scrollH('h-adv',2)">
+            下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="arrow-bounce" id="adv-arrow-1"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></div>
+        </div>
+      </div>
+      <div class="h-panel" data-adv="2">
+        <div class="h-panel-inner">
+          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+          <h3 class="adv-card-title">需求挖掘与判断能力</h3>
+          <p class="adv-card-desc">善于从表面诉求中挖掘底层真实需求，通过追问、观察和数据分析，辨别哪些需求值得投入资源，哪些是伪需求。在有限资源下做出最优判断。</p>
+          <button class="go-btn" onclick="scrollH('h-adv',3)">
+            下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="arrow-bounce" id="adv-arrow-2"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></div>
+        </div>
+      </div>
+      <div class="h-panel" data-adv="3">
+        <div class="h-panel-inner">
+          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
+          <h3 class="adv-card-title">抗压与结果导向</h3>
+          <p class="adv-card-desc">面对高强度任务和多线并行的工作节奏时，能保持冷静、专注交付。始终以结果驱动行动，善于在压力下拆解问题、排定优先级，确保核心目标不偏移。</p>
+          <button class="go-btn" onclick="scrollH('h-adv',4)">
+            下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="arrow-bounce" id="adv-arrow-3"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></div>
+        </div>
+      </div>
+      <div class="h-panel" data-adv="4">
+        <div class="h-panel-inner">
+          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <h3 class="adv-card-title">快速学习与团队协作</h3>
+          <p class="adv-card-desc">具备快速上手新工具、新领域的能力，善于从文档、实战和他人经验中高效学习。在团队中乐于分享、主动补位，能够迅速融入并成为可依赖的协作者。</p>
+          <button class="go-btn" onclick="scrollH('h-adv',5)">
+            下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="arrow-bounce" id="adv-arrow-4"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></div>
+        </div>
+      </div>
+      <div class="h-panel" data-adv="5">
+        <div class="h-panel-inner">
+          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 20v-4"/><path d="M12 4v4"/><path d="M4 12h4"/><path d="M16 12h4"/></svg></div>
+          <h3 class="adv-card-title">数据敏感度</h3>
+          <p class="adv-card-desc">对数据有天然的敏感度，能够从繁杂的数据中快速识别异常与趋势。善于用数据说话，将定性问题转化为定量指标，辅助团队做出更精准的决策。</p>
+          <button class="go-btn" onclick="scrollH('h-adv',6)">
+            下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="arrow-bounce" id="adv-arrow-5"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></div>
+        </div>
+      </div>
+      <div class="h-panel" data-adv="6">
+        <div class="h-panel-inner">
+          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3Z"/><path d="M19 9c0-1.7-1.3-3-3-3s-3 1.3-3 3 1.3 3 3 3 3-1.3 3-3Z"/><path d="M5 9c0-1.7 1.3-3 3-3s3 1.3 3 3-1.3 3-3 3-3-1.3-3-3Z"/><path d="M12 15c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3Z"/><path d="M19 15c0 1.7-1.3 3-3 3s-3-1.3-3-3 1.3-3 3-3 3 1.3 3 3Z"/></svg></div>
+          <h3 class="adv-card-title">市场洞察与创新</h3>
+          <p class="adv-card-desc">保持对行业动态和新兴趋势的关注，乐于思考产品与市场之间的关系。能够结合用户需求与商业逻辑，提出有创意的解决方案，不只做执行者，更想做创造者。</p>
+          <button class="go-btn" onclick="scrollH('h-adv',7)">
+            下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="arrow-bounce" id="adv-arrow-6"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></div>
+        </div>
+      </div>
+      <div class="h-panel" data-adv="7">
+        <div class="h-panel-inner">
+          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 8v4l2 2"/></svg></div>
+          <h3 class="adv-card-title">AI 好奇心与落地能力</h3>
+          <p class="adv-card-desc">对 AI 技术保持强烈好奇心，积极将 AI 工具融入日常工作流，提升效率。不仅满足于「会用」，更追求「用好」——将 AI 能力与实际业务场景结合，产生可衡量的价值。</p>
+          <button class="go-btn" onclick="scrollToSection(5)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            查看项目
+          </button>
+          <div class="arrow-bounce" id="adv-arrow-7"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 5: PROJECTS 1 -->
+  <section class="section" data-index="5">
+    <div class="section-inner" style="justify-content:center">
+      <span class="section-label">AI 项目</span>
+      <h2 class="section-title">看看我做了什么</h2>
+      <div class="projects-grid">
+        <div class="project-card" onclick="openVideo('public/videos/数据监控报警功能.mp4')">
+          <div class="project-video-wrap">
+            <video src="public/videos/数据监控报警功能.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="project-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+          <div class="project-card-title">数据监控报警功能</div>
+          <div class="project-card-desc">实时数据监控与智能报警</div>
+        </div>
+        <div class="project-card" onclick="openVideo('public/videos/员工系统快速配置.mp4')">
+          <div class="project-video-wrap">
+            <video src="public/videos/员工系统快速配置.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="project-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+          <div class="project-card-title">员工系统快速配置</div>
+          <div class="project-card-desc">高效完成系统初始化与配置</div>
+        </div>
+        <div class="project-card" onclick="openVideo('public/videos/数据搜索与图形化.mp4')">
+          <div class="project-video-wrap">
+            <video src="public/videos/数据搜索与图形化.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="project-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+          <div class="project-card-title">数据搜索与图形化</div>
+          <div class="project-card-desc">智能搜索与可视化图表展示</div>
+        </div>
+        <div class="project-card" onclick="openVideo('public/videos/根据多维度数据判断优先级.mp4')">
+          <div class="project-video-wrap">
+            <video src="public/videos/根据多维度数据判断优先级.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="project-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+          <div class="project-card-title">多维度数据优先级判断</div>
+          <div class="project-card-desc">基于多维数据的智能排序</div>
+        </div>
+      </div>
+      <p class="projects-footer">关键数据保密需要，以上演示均用模拟网站演示</p>
+    </div>
+  </section>
+
+  <!-- SCREEN 6: PROJECTS 2 -->
+  <section class="section" data-index="6">
+    <div class="section-inner" style="justify-content:center">
+      <span class="section-label">AI 项目</span>
+      <h2 class="section-title">其他领域的探索</h2>
+      <p class="section-desc" style="margin-bottom:20px">比如电商</p>
+      <div class="projects-grid">
+        <div class="project-card" onclick="openVideo('public/videos/利用多维表格对商品趋势进行分析.mp4')">
+          <div class="project-video-wrap">
+            <video src="public/videos/利用多维表格对商品趋势进行分析.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="project-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+          <div class="project-card-title">商品趋势分析</div>
+          <div class="project-card-desc">利用多维表格进行数据洞察</div>
+        </div>
+        <div class="project-card" onclick="openVideo('public/videos/利用多维表格进行商品数据抓取.mp4')">
+          <div class="project-video-wrap">
+            <video src="public/videos/利用多维表格进行商品数据抓取.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="project-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+          <div class="project-card-title">商品数据抓取</div>
+          <div class="project-card-desc">多维表格自动化采集商品数据</div>
+        </div>
+      </div>
+      <p class="projects-footer">借助飞书 CLI 搭建的多维表格</p>
+    </div>
+  </section>
+
+  <!-- SCREEN 7: ASK ME -->
+  <section class="section" data-index="7">
+    <div class="section-inner" style="justify-content:center">
+      <div class="ask-header">
+        <h2 class="ask-title">你对我有什么想问的？</h2>
+        <p class="ask-subtitle">任何问题，我来回答</p>
+      </div>
+      <div class="chat-area">
+        <div class="chat-messages" id="chat-msgs"></div>
+        <div class="chat-input-wrap">
+          <input type="text" id="chat-input" placeholder="输入你的问题..." maxlength="200" autocomplete="off">
+          <button class="chat-send-btn" id="chat-send" onclick="sendMsg()" aria-label="发送">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Video Modal -->
+<div id="video-modal">
+  <button class="modal-close" onclick="closeVideo()" aria-label="关闭">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <video id="modal-video" controls playsinline></video>
+</div>
+
+<script>
+(function(){
+  var app = document.getElementById('app');
+  var sections = document.querySelectorAll('.section');
+  var totalSections = sections.length;
+  var navDots = document.getElementById('nav-dots');
+  var progressFill = document.querySelector('#progress-bar .fill');
+  var musicBtn = document.getElementById('music-btn');
+  var bgm = document.getElementById('bgm');
+  var playIcon = document.getElementById('music-icon-play');
+  var pauseIcon = document.getElementById('music-icon-pause');
+  var currentSection = 0;
+  var isScrolling = false;
+  var scrollTimeout;
+  var touchStartY = 0;
+
+  createNavDots();
+  createAdvDots();
+
+  function createNavDots(){
+    for(var i=0;i<totalSections;i++){
+      var dot = document.createElement('span');
+      dot.className = 'nav-dot'+(i===0?' active':'');
+      dot.onclick = (function(idx){return function(){scrollToSection(idx);};})(i);
+      navDots.appendChild(dot);
+    }
+  }
+
+  function createAdvDots(){
+    var advDotsEl = document.getElementById('adv-dots');
+    if(!advDotsEl) return;
+    for(var i=0;i<8;i++){
+      var dot = document.createElement('span');
+      dot.className = 'h-dot'+(i===0?' active':'');
+      advDotsEl.appendChild(dot);
+    }
+  }
+
+  window.scrollToSection = function(idx){
+    if(idx<0||idx>=totalSections) return;
+    currentSection = idx;
+    sections[idx].scrollIntoView({behavior:'smooth'});
+    updateUI(idx);
+    resetAllHorizontal();
+  };
+
+  function updateUI(idx){
+    currentSection = idx;
+    var pct = (idx/(totalSections-1))*100;
+    progressFill.style.width = pct+'%';
+    var dots = navDots.querySelectorAll('.nav-dot');
+    dots.forEach(function(d,i){d.classList.toggle('active',i===idx);});
+  }
+
+  function resetAllHorizontal(){
+    var hContainers = document.querySelectorAll('.h-container');
+    hContainers.forEach(function(c){c.scrollLeft=0;});
+    updateAllHDots();
+  }
+
+  function updateAllHDots(){
+    document.querySelectorAll('.h-container').forEach(function(hc){
+      updateHDots(hc);
+    });
+  }
+
+  window.scrollH = function(containerId, panelIndex){
+    var hc = document.getElementById(containerId);
+    if(!hc) return;
+    var panels = hc.querySelectorAll('.h-panel');
+    if(panelIndex>=panels.length) return;
+    panels[panelIndex].scrollIntoView({behavior:'smooth',block:'nearest',inline:'start'});
+    setTimeout(function(){updateHDots(hc);},400);
+  };
+
+  function updateHDots(hc){
+    var scrollLeft = hc.scrollLeft;
+    var panelWidth = hc.clientWidth;
+    var activeIdx = Math.round(scrollLeft/panelWidth);
+    var dots = hc.querySelectorAll('.h-dot');
+    dots.forEach(function(d,i){d.classList.toggle('active',i===activeIdx);});
+    updateAdvArrows(hc,activeIdx);
+  }
+
+  function updateAdvArrows(hc, activeIdx){
+    var panels = hc.querySelectorAll('.h-panel');
+    var total = panels.length;
+    panels.forEach(function(panel,i){
+      var arrow = panel.querySelector('.arrow-bounce');
+      if(!arrow) return;
+      arrow.classList.remove('show');
+      arrow.style.animation = 'none';
+      arrow.offsetHeight;
+    });
+  }
+
+  function getActiveHPanelIndex(hc){
+    if(!hc) return 0;
+    return Math.round(hc.scrollLeft/hc.clientWidth);
+  }
+
+  function getTotalHPanels(hc){
+    if(!hc) return 1;
+    return hc.querySelectorAll('.h-panel').length;
+  }
+
+  app.addEventListener('scroll',function(){
+    if(isScrolling) return;
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(function(){
+      var scrollTop = app.scrollTop;
+      var vh = app.clientHeight;
+      var idx = Math.round(scrollTop/vh);
+      idx = Math.max(0,Math.min(idx,totalSections-1));
+      if(idx!==currentSection){
+        updateUI(idx);
+      }
+    },150);
+  });
+
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var idx = parseInt(entry.target.getAttribute('data-index'));
+        if(!isNaN(idx)) updateUI(idx);
+      }
+    });
+  },{threshold:0.5});
+  sections.forEach(function(s){observer.observe(s);});
+
+  document.querySelectorAll('.h-container').forEach(function(hc){
+    hc.addEventListener('scroll',function(){
+      updateHDots(hc);
+    });
+  });
+
+  document.addEventListener('keydown',function(e){
+    var key = e.key;
+    if(key==='ArrowDown'){
+      e.preventDefault();
+      var section = sections[currentSection];
+      var hc = section.querySelector('.h-container');
+      if(hc){
+        var activeIdx = getActiveHPanelIndex(hc);
+        var total = getTotalHPanels(hc);
+        if(activeIdx<total-1){
+          scrollH(hc.id,activeIdx+1);
+        }else{
+          if(currentSection>=3&&currentSection<=3){
+            scrollToSection(currentSection+1);
+          }else{
+            scrollToSection(currentSection+1);
+          }
+        }
+      }else{
+        scrollToSection(currentSection+1);
+      }
+    }else if(key==='ArrowUp'){
+      e.preventDefault();
+      var section = sections[currentSection];
+      var hc = section.querySelector('.h-container');
+      if(hc){
+        var activeIdx = getActiveHPanelIndex(hc);
+        if(activeIdx>0){
+          scrollH(hc.id,activeIdx-1);
+        }else{
+          if(currentSection>0) scrollToSection(currentSection-1);
+        }
+      }else{
+        if(currentSection>0) scrollToSection(currentSection-1);
+      }
+    }else if(key==='ArrowRight'){
+      e.preventDefault();
+      var section = sections[currentSection];
+      var hc = section.querySelector('.h-container');
+      if(hc){
+        var activeIdx = getActiveHPanelIndex(hc);
+        var total = getTotalHPanels(hc);
+        if(activeIdx<total-1){
+          scrollH(hc.id,activeIdx+1);
+        }else if(currentSection<totalSections-1){
+          scrollToSection(currentSection+1);
+        }
+      }
+    }else if(key==='ArrowLeft'){
+      e.preventDefault();
+      var section = sections[currentSection];
+      var hc = section.querySelector('.h-container');
+      if(hc){
+        var activeIdx = getActiveHPanelIndex(hc);
+        if(activeIdx>0){
+          scrollH(hc.id,activeIdx-1);
+        }else if(currentSection>0){
+          scrollToSection(currentSection-1);
+        }
+      }
+    }
+  });
+
+  var touchStartX = 0;
+  document.addEventListener('touchstart',function(e){
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+  },{passive:true});
+
+  document.addEventListener('touchmove',function(e){
+    var section = sections[currentSection];
+    var hc = section?section.querySelector('.h-container'):null;
+    if(!hc) return;
+    var activeIdx = getActiveHPanelIndex(hc);
+    var total = getTotalHPanels(hc);
+    var dy = touchStartY - e.touches[0].clientY;
+    var dx = touchStartX - e.touches[0].clientX;
+    if(Math.abs(dy)>Math.abs(dx)&&dy>20){
+      if(activeIdx===total-1){
+        return;
+      }
+      if(currentSection===4&&activeIdx>=1&&activeIdx<total-1){
+        e.preventDefault();
+        var arrow = hc.querySelector('.h-panel[data-adv="'+activeIdx+'"] .arrow-bounce');
+        if(arrow){
+          arrow.classList.remove('show');
+          void arrow.offsetWidth;
+          arrow.classList.add('show');
+          setTimeout(function(){arrow.classList.remove('show');},1600);
+        }
+      }
+    }
+  },{passive:false});
+
+  musicBtn.addEventListener('click',function(){
+    if(bgm.paused){
+      bgm.play().then(function(){
+        musicBtn.classList.add('playing');
+        playIcon.style.display='none';
+        pauseIcon.style.display='block';
+      }).catch(function(){});
+    }else{
+      bgm.pause();
+      musicBtn.classList.remove('playing');
+      playIcon.style.display='block';
+      pauseIcon.style.display='none';
+    }
+  });
+
+  window.openVideo = function(src){
+    var modal = document.getElementById('video-modal');
+    var video = document.getElementById('modal-video');
+    video.src = src;
+    modal.classList.add('open');
+    video.play().catch(function(){});
+    document.body.style.overflow='hidden';
+  };
+
+  window.closeVideo = function(){
+    var modal = document.getElementById('video-modal');
+    var video = document.getElementById('modal-video');
+    video.pause();
+    video.src = '';
+    modal.classList.remove('open');
+    document.body.style.overflow='';
+  };
+
+  document.getElementById('video-modal').addEventListener('click',function(e){
+    if(e.target===this) closeVideo();
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape') closeVideo();
+  });
+
+  window.sendMsg = function(){
+    var input = document.getElementById('chat-input');
+    var msg = input.value.trim();
+    if(!msg) return;
+    var chatMsgs = document.getElementById('chat-msgs');
+    var userBubble = document.createElement('div');
+    userBubble.className = 'chat-bubble user';
+    userBubble.textContent = msg;
+    chatMsgs.appendChild(userBubble);
+    input.value = '';
+    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    var typingBubble = document.createElement('div');
+    typingBubble.className = 'chat-bubble bot typing';
+    typingBubble.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+    chatMsgs.appendChild(typingBubble);
+    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    setTimeout(function(){
+      typingBubble.remove();
+      var botBubble = document.createElement('div');
+      botBubble.className = 'chat-bubble bot';
+      botBubble.textContent = '不好意思，我家token额度不足1元了，所以这个功能暂时用不了😁';
+      chatMsgs.appendChild(botBubble);
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    },1500);
+  };
+
+  document.getElementById('chat-input').addEventListener('keydown',function(e){
+    if(e.key==='Enter') sendMsg();
+  });
+
+  updateUI(0);
+})();
+</script>
+</body>
+</html>
