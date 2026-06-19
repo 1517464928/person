@@ -696,6 +696,49 @@ body{
   .h-panel-inner{max-width:640px}
   .projects-grid{max-width:720px;gap:24px}
 }
+
+/* ============ SCROLL REVEAL ANIMATIONS ============ */
+.anim-ready{opacity:0;will-change:transform,opacity}
+.anim-go{opacity:1}
+
+/* intro: scale+fade */
+.anim-intro .anim-ready{transform:scale(.92);transition:opacity .7s ease,transform .7s ease}
+.anim-intro .anim-go{transform:scale(1)}
+.anim-intro .anim-ready:nth-child(1){transition-delay:0s}
+.anim-intro .anim-ready:nth-child(2){transition-delay:.1s}
+.anim-intro .anim-ready:nth-child(3){transition-delay:.2s}
+.anim-intro .anim-ready:nth-child(4){transition-delay:.3s}
+.anim-intro .anim-ready:nth-child(5){transition-delay:.4s}
+
+/* hero: slide from left */
+.anim-hero .anim-ready{transform:translateX(-80px) rotateY(8deg);transition:opacity .6s ease,transform .6s ease;perspective:800px}
+.anim-hero .anim-go{transform:translateX(0) rotateY(0)}
+.anim-hero .anim-ready:nth-child(1){transition-delay:0s}
+.anim-hero .anim-ready:nth-child(2){transition-delay:.08s}
+.anim-hero .anim-ready:nth-child(3){transition-delay:.16s}
+.anim-hero .anim-ready:nth-child(4){transition-delay:.24s}
+.anim-hero .anim-ready:nth-child(5){transition-delay:.32s}
+.anim-hero .anim-ready:nth-child(6){transition-delay:.4s}
+.anim-hero .anim-ready:nth-child(7){transition-delay:.48s}
+
+/* detail: slide up + scale */
+.anim-detail .anim-ready{transform:translateY(60px) scale(.96);transition:opacity .55s ease,transform .55s ease}
+.anim-detail .anim-go{transform:translateY(0) scale(1)}
+.anim-detail .anim-ready:nth-child(1){transition-delay:0s}
+.anim-detail .anim-ready:nth-child(2){transition-delay:.06s}
+.anim-detail .anim-ready:nth-child(3){transition-delay:.12s}
+.anim-detail .anim-ready:nth-child(4){transition-delay:.18s}
+
+/* advantages: staggered fade-up */
+.anim-adv .anim-ready{transform:translateY(50px);transition:opacity .5s ease,transform .5s ease}
+.anim-adv .anim-go{transform:translateY(0)}
+.anim-adv .anim-ready:nth-child(1){transition-delay:0s}
+.anim-adv .anim-ready:nth-child(2){transition-delay:.1s}
+.anim-adv .anim-ready:nth-child(3){transition-delay:.2s}
+
+/* projects: zoom-in scale */
+.anim-projects .anim-ready{transform:translateY(30px) scale(1.08);transition:opacity .6s ease,transform .6s ease}
+.anim-projects .anim-go{transform:translateY(0) scale(1)}
 </style>
 </head>
 <body>
@@ -716,8 +759,8 @@ body{
 <div id="app">
   <!-- SCREEN 0: INTRO -->
   <section class="section" data-index="0">
-    <div class="section-inner">
-      <div class="intro-avatar">张</div>
+    <div class="section-inner anim-intro">
+      <div class="intro-avatar anim-ready">张</div>
       <div class="intro-title-sub">关于我</div>
       <h1 class="intro-name">张攀岳</h1>
       <p class="intro-desc">向下滚动，探索我的教育、实习、创业与校园经历。</p>
@@ -732,23 +775,23 @@ body{
   <section class="section" data-index="1">
     <div class="h-container" id="h-exp1">
       <div class="h-panel">
-        <div class="h-panel-inner">
-          <span class="exp-hero-tag">实习经历</span>
-          <h2 class="exp-hero-title">学大教育</h2>
-          <p class="exp-hero-subtitle">B 端产品运营实习生</p>
-          <p class="exp-hero-date">2026.01 - 2026.06</p>
-          <p class="exp-hero-desc">负责 B 端 SAAS 营销产品的全国运营，助力关键指标持续提升、维持业务稳定运转</p>
-          <button class="go-btn" onclick="scrollH('h-exp1',1)">
+        <div class="h-panel-inner anim-hero">
+          <span class="exp-hero-tag anim-ready">实习经历</span>
+          <h2 class="exp-hero-title anim-ready">学大教育</h2>
+          <p class="exp-hero-subtitle anim-ready">B 端产品运营实习生</p>
+          <p class="exp-hero-date anim-ready">2026.01 - 2026.06</p>
+          <p class="exp-hero-desc anim-ready">负责 B 端 SAAS 营销产品的全国运营，助力关键指标持续提升、维持业务稳定运转</p>
+          <button class="go-btn anim-ready" onclick="scrollH('h-exp1',1)">
             开始探索 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <div class="h-dots"><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span></div>
+          <div class="h-dots anim-ready"><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span></div>
         </div>
       </div>
       <div class="h-panel">
-        <div class="h-panel-inner">
-          <span class="panel-label">工作内容</span>
-          <h3 class="panel-title">日常运营与维护</h3>
-          <ul class="panel-list">
+        <div class="h-panel-inner anim-detail">
+          <span class="panel-label anim-ready">工作内容</span>
+          <h3 class="panel-title anim-ready">日常运营与维护</h3>
+          <ul class="panel-list anim-ready">
             <li>负责全国范围内 B 端 SaaS 营销产品的日常运营维护，覆盖超过 200 个校区客户</li>
             <li>建立标准化运营流程（SOP），编写运营手册，降低新员工上手成本</li>
             <li>定期收集客户反馈，输出需求分析报告并推动产品迭代优化</li>
@@ -756,17 +799,17 @@ body{
             <li>搭建数据监控看板，实时追踪核心业务指标异常波动</li>
             <li>组织线上培训与答疑，提升校区端使用熟练度与满意度</li>
           </ul>
-          <button class="go-btn" onclick="scrollH('h-exp1',2)">
+          <button class="go-btn anim-ready" onclick="scrollH('h-exp1',2)">
             下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <div class="h-dots"><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span></div>
+          <div class="h-dots anim-ready"><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span></div>
         </div>
       </div>
       <div class="h-panel">
-        <div class="h-panel-inner">
-          <span class="panel-label">工作业绩</span>
-          <h3 class="panel-title">核心成果与数据</h3>
-          <ul class="panel-list">
+        <div class="h-panel-inner anim-detail">
+          <span class="panel-label anim-ready">工作业绩</span>
+          <h3 class="panel-title anim-ready">核心成果与数据</h3>
+          <ul class="panel-list anim-ready">
             <li>客户续费率同比提升 12%，超额完成季度目标</li>
             <li>产品日活跃用户数（DAU）在运营期内增长 35%</li>
             <li>搭建的运营 SOP 使问题响应时效从 48h 缩短至 12h 以内</li>
@@ -774,22 +817,22 @@ body{
             <li>独立完成竞品分析报告 2 份，被产品团队采纳并落地</li>
             <li>校园培训覆盖率达到 95%，用户满意度提升至 4.6/5</li>
           </ul>
-          <button class="go-btn" onclick="scrollH('h-exp1',3)">
+          <button class="go-btn anim-ready" onclick="scrollH('h-exp1',3)">
             下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <div class="h-dots"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span></div>
+          <div class="h-dots anim-ready"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span></div>
         </div>
       </div>
       <div class="h-panel">
-        <div class="h-panel-inner">
-          <span class="panel-label">个人成长</span>
-          <h3 class="panel-title">这段经历的收获</h3>
-          <p class="panel-text">在学大教育为期六个月的实习中，我从零开始接触 B 端 SaaS 产品运营，完成了从校园思维到职场思维的转变。最大的收获在于学会了如何站在客户视角理解需求，在有限的资源下找到最有效的解决方案。通过独立负责全国范围的产品运营，我锻炼了跨部门沟通协调能力，也深刻体会到数据驱动决策的重要性。每一次客户问题的闭环处理、每一次产品迭代的上线推进，都让我更加确信——运营的本质是用心和专业搭建起产品与用户之间的桥梁。这段经历不仅让我掌握了 B 端运营的实战技能，更培养了我面对复杂问题时的拆解思维与持续优化的习惯。</p>
-          <button class="go-btn" onclick="scrollToSection(2)">
+        <div class="h-panel-inner anim-detail">
+          <span class="panel-label anim-ready">个人成长</span>
+          <h3 class="panel-title anim-ready">这段经历的收获</h3>
+          <p class="panel-text anim-ready">在学大教育为期六个月的实习中，我从零开始接触 B 端 SaaS 产品运营，完成了从校园思维到职场思维的转变。最大的收获在于学会了如何站在客户视角理解需求，在有限的资源下找到最有效的解决方案。通过独立负责全国范围的产品运营，我锻炼了跨部门沟通协调能力，也深刻体会到数据驱动决策的重要性。每一次客户问题的闭环处理、每一次产品迭代的上线推进，都让我更加确信——运营的本质是用心和专业搭建起产品与用户之间的桥梁。这段经历不仅让我掌握了 B 端运营的实战技能，更培养了我面对复杂问题时的拆解思维与持续优化的习惯。</p>
+          <button class="go-btn anim-ready" onclick="scrollToSection(2)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
             下一段经历
           </button>
-          <div class="h-dots"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span></div>
+          <div class="h-dots anim-ready"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span></div>
         </div>
       </div>
     </div>
@@ -799,23 +842,23 @@ body{
   <section class="section" data-index="2">
     <div class="h-container" id="h-exp2">
       <div class="h-panel">
-        <div class="h-panel-inner">
-          <span class="exp-hero-tag">创业经历</span>
-          <h2 class="exp-hero-title">小白家教群</h2>
-          <p class="exp-hero-subtitle">负责人</p>
-          <p class="exp-hero-date">2025.05 - 2026.01</p>
-          <p class="exp-hero-desc">参考电商运营中流量—转化—留存的基本逻辑设计宣传与运营策略，从零搭建起覆盖数百人的家教匹配社群</p>
-          <button class="go-btn" onclick="scrollH('h-exp2',1)">
+        <div class="h-panel-inner anim-hero">
+          <span class="exp-hero-tag anim-ready">创业经历</span>
+          <h2 class="exp-hero-title anim-ready">小白家教群</h2>
+          <p class="exp-hero-subtitle anim-ready">负责人</p>
+          <p class="exp-hero-date anim-ready">2025.05 - 2026.01</p>
+          <p class="exp-hero-desc anim-ready">参考电商运营中流量—转化—留存的基本逻辑设计宣传与运营策略，从零搭建起覆盖数百人的家教匹配社群</p>
+          <button class="go-btn anim-ready" onclick="scrollH('h-exp2',1)">
             开始探索 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <div class="h-dots"><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span></div>
+          <div class="h-dots anim-ready"><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span></div>
         </div>
       </div>
       <div class="h-panel">
-        <div class="h-panel-inner">
-          <span class="panel-label">项目概况</span>
-          <h3 class="panel-title">从零到一的搭建过程</h3>
-          <ul class="panel-list">
+        <div class="h-panel-inner anim-detail">
+          <span class="panel-label anim-ready">项目概况</span>
+          <h3 class="panel-title anim-ready">从零到一的搭建过程</h3>
+          <ul class="panel-list anim-ready">
             <li>参考电商「流量—转化—留存」模型，设计社群运营全链路策略</li>
             <li>通过校园地推与线上裂变组合打法，冷启动阶段获取首批精准用户</li>
             <li>制定标准化的家教匹配流程：需求收集 → 画像匹配 → 试课反馈 → 正式签约</li>
@@ -823,44 +866,44 @@ body{
             <li>设计分级定价策略，根据学科难度与教师资质差异化收费</li>
             <li>搭建微信社群矩阵，实现分层运营（意向群 → 成交群 → VIP 群）</li>
           </ul>
-          <button class="go-btn" onclick="scrollH('h-exp2',2)">
+          <button class="go-btn anim-ready" onclick="scrollH('h-exp2',2)">
             下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <div class="h-dots"><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span></div>
+          <div class="h-dots anim-ready"><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span></div>
         </div>
       </div>
       <div class="h-panel">
-        <div class="h-panel-inner">
-          <span class="panel-label">业绩成果</span>
-          <h3 class="panel-title">数据与成果</h3>
-          <ul class="panel-list">
+        <div class="h-panel-inner anim-detail">
+          <span class="panel-label anim-ready">业绩成果</span>
+          <h3 class="panel-title anim-ready">数据与成果</h3>
+          <ul class="panel-list anim-ready">
             <li>社群累计覆盖家长用户 500+，成功匹配家教对接 200+ 次</li>
             <li>匹配成功率从初期的 30% 优化至 65%，客户满意度达 4.8/5</li>
             <li>月度净利润稳定在 3000 - 5000 元，实现可持续盈利</li>
             <li>积累完善的运营 SOP 文档，可实现团队交接与规模化复制</li>
           </ul>
-          <button class="go-btn" onclick="scrollH('h-exp2',3)">
+          <button class="go-btn anim-ready" onclick="scrollH('h-exp2',3)">
             下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <div class="h-dots"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span></div>
+          <div class="h-dots anim-ready"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span></div>
         </div>
       </div>
       <div class="h-panel">
-        <div class="h-panel-inner">
-          <span class="panel-label">能力成长</span>
-          <h3 class="panel-title">创业带来的蜕变</h3>
-          <ul class="panel-list">
+        <div class="h-panel-inner anim-detail">
+          <span class="panel-label anim-ready">能力成长</span>
+          <h3 class="panel-title anim-ready">创业带来的蜕变</h3>
+          <ul class="panel-list anim-ready">
             <li>从 0 到 1 的项目经验：学会在资源有限时找到 MVP 路径并快速验证</li>
             <li>用户思维养成：深入理解双端用户的真实需求，持续优化撮合体验</li>
             <li>商业闭环意识：从流量获取到变现复购，建立完整的商业认知框架</li>
             <li>沟通与协调能力：管理家教团队，处理家长纠纷，积累大量沟通实战经验</li>
             <li>数据驱动决策：用转化率、留存率等指标指导运营动作，告别拍脑袋</li>
           </ul>
-          <button class="go-btn" onclick="scrollToSection(3)">
+          <button class="go-btn anim-ready" onclick="scrollToSection(3)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
             下一段经历
           </button>
-          <div class="h-dots"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span></div>
+          <div class="h-dots anim-ready"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span></div>
         </div>
       </div>
     </div>
@@ -870,63 +913,63 @@ body{
   <section class="section" data-index="3">
     <div class="h-container" id="h-exp3">
       <div class="h-panel">
-        <div class="h-panel-inner">
-          <span class="exp-hero-tag">校园经历</span>
-          <h2 class="exp-hero-title">院团委科创部</h2>
-          <p class="exp-hero-subtitle">科创部部长</p>
-          <p class="exp-hero-date">2025.06 - 2026.06</p>
-          <p class="exp-hero-desc">联动多部门合作，主导科创竞赛全流程顺利进行</p>
-          <button class="go-btn" onclick="scrollH('h-exp3',1)">
+        <div class="h-panel-inner anim-hero">
+          <span class="exp-hero-tag anim-ready">校园经历</span>
+          <h2 class="exp-hero-title anim-ready">院团委科创部</h2>
+          <p class="exp-hero-subtitle anim-ready">科创部部长</p>
+          <p class="exp-hero-date anim-ready">2025.06 - 2026.06</p>
+          <p class="exp-hero-desc anim-ready">联动多部门合作，主导科创竞赛全流程顺利进行</p>
+          <button class="go-btn anim-ready" onclick="scrollH('h-exp3',1)">
             开始探索 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <div class="h-dots"><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span></div>
+          <div class="h-dots anim-ready"><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span></div>
         </div>
       </div>
       <div class="h-panel">
-        <div class="h-panel-inner">
-          <span class="panel-label">工作内容</span>
-          <h3 class="panel-title">科创赛事全流程管理</h3>
-          <ul class="panel-list">
+        <div class="h-panel-inner anim-detail">
+          <span class="panel-label anim-ready">工作内容</span>
+          <h3 class="panel-title anim-ready">科创赛事全流程管理</h3>
+          <ul class="panel-list anim-ready">
             <li>统筹管理院级科创竞赛的报名、评审、答辩、颁奖全流程</li>
             <li>联动宣传部进行赛事推广，联动外联部获取赞助与嘉宾资源</li>
             <li>制定竞赛规则与评分标准，确保评审过程公平公正公开</li>
             <li>组织赛前培训与经验分享会，提升参赛项目质量</li>
             <li>对接校级科创赛事组委会，完成院内优秀项目的选拔与推荐</li>
           </ul>
-          <button class="go-btn" onclick="scrollH('h-exp3',2)">
+          <button class="go-btn anim-ready" onclick="scrollH('h-exp3',2)">
             下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <div class="h-dots"><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span></div>
+          <div class="h-dots anim-ready"><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span><span class="h-dot"></span></div>
         </div>
       </div>
       <div class="h-panel">
-        <div class="h-panel-inner">
-          <span class="panel-label">工作成果</span>
-          <h3 class="panel-title">赛事成绩与影响力</h3>
-          <ul class="panel-list">
+        <div class="h-panel-inner anim-detail">
+          <span class="panel-label anim-ready">工作成果</span>
+          <h3 class="panel-title anim-ready">赛事成绩与影响力</h3>
+          <ul class="panel-list anim-ready">
             <li>承办院级科创赛事 3 场，累计覆盖参赛团队 40+ 支、参与学生 200+ 人</li>
             <li>推荐至校级比赛的项目中，2 项获得校级一等奖、1 项获得省级立项</li>
             <li>赛事满意度调查评分 4.7/5，获得院团委年度优秀部门表彰</li>
           </ul>
-          <button class="go-btn" onclick="scrollH('h-exp3',3)">
+          <button class="go-btn anim-ready" onclick="scrollH('h-exp3',3)">
             下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <div class="h-dots"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span></div>
+          <div class="h-dots anim-ready"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span><span class="h-dot"></span></div>
         </div>
       </div>
       <div class="h-panel">
-        <div class="h-panel-inner">
-          <span class="panel-label">能力提升</span>
-          <h3 class="panel-title">管理者的成长</h3>
-          <ul class="panel-list">
+        <div class="h-panel-inner anim-detail">
+          <span class="panel-label anim-ready">能力提升</span>
+          <h3 class="panel-title anim-ready">管理者的成长</h3>
+          <ul class="panel-list anim-ready">
             <li>带领 10 人团队完成多场大型活动的策划与执行，锻炼了团队管理与项目统筹能力，学会了如何在时间紧、任务重的情况下合理分配资源、调动团队积极性，确保每场活动都达到预期效果</li>
             <li>在多部门协调中提升了向上管理与横向沟通能力，能够精准理解各方诉求并找到平衡点，推动项目顺利推进</li>
           </ul>
-          <button class="go-btn" onclick="scrollToSection(4)">
+          <button class="go-btn anim-ready" onclick="scrollToSection(4)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
             下一部分
           </button>
-          <div class="h-dots"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span></div>
+          <div class="h-dots anim-ready"><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot"></span><span class="h-dot active"></span></div>
         </div>
       </div>
     </div>
@@ -936,10 +979,10 @@ body{
   <section class="section" data-index="4">
     <div class="h-container" id="h-adv">
       <div class="h-panel">
-        <div class="h-panel-inner">
-          <span class="adv-hero-tag">核心竞争力</span>
-          <h2 class="adv-title">个人优势</h2>
-          <p class="adv-desc">继续探索，发现我的核心竞争力</p>
+        <div class="h-panel-inner anim-adv">
+          <span class="adv-hero-tag anim-ready">核心竞争力</span>
+          <h2 class="adv-title anim-ready">个人优势</h2>
+          <p class="adv-desc anim-ready">继续探索，发现我的核心竞争力</p>
           <button class="go-btn" onclick="scrollH('h-adv',1)">
             开始探索 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
@@ -947,10 +990,10 @@ body{
         </div>
       </div>
       <div class="h-panel" data-adv="1">
-        <div class="h-panel-inner">
-          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-          <h3 class="adv-card-title">换位思考与沟通能力</h3>
-          <p class="adv-card-desc">擅长站在对方角度理解需求，能够快速建立信任关系。无论是与客户、同事还是上级沟通，都能精准把握核心诉求，用对方能理解的方式传达信息，减少沟通摩擦。</p>
+        <div class="h-panel-inner anim-adv">
+          <div class="adv-card-icon anim-ready"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <h3 class="adv-card-title anim-ready">换位思考与沟通能力</h3>
+          <p class="adv-card-desc anim-ready">擅长站在对方角度理解需求，能够快速建立信任关系。无论是与客户、同事还是上级沟通，都能精准把握核心诉求，用对方能理解的方式传达信息，减少沟通摩擦。</p>
           <button class="go-btn" onclick="scrollH('h-adv',2)">
             下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
@@ -958,10 +1001,10 @@ body{
         </div>
       </div>
       <div class="h-panel" data-adv="2">
-        <div class="h-panel-inner">
-          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
-          <h3 class="adv-card-title">需求挖掘与判断能力</h3>
-          <p class="adv-card-desc">善于从表面诉求中挖掘底层真实需求，通过追问、观察和数据分析，辨别哪些需求值得投入资源，哪些是伪需求。在有限资源下做出最优判断。</p>
+        <div class="h-panel-inner anim-adv">
+          <div class="adv-card-icon anim-ready"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+          <h3 class="adv-card-title anim-ready">需求挖掘与判断能力</h3>
+          <p class="adv-card-desc anim-ready">善于从表面诉求中挖掘底层真实需求，通过追问、观察和数据分析，辨别哪些需求值得投入资源，哪些是伪需求。在有限资源下做出最优判断。</p>
           <button class="go-btn" onclick="scrollH('h-adv',3)">
             下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
@@ -969,10 +1012,10 @@ body{
         </div>
       </div>
       <div class="h-panel" data-adv="3">
-        <div class="h-panel-inner">
-          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
-          <h3 class="adv-card-title">抗压与结果导向</h3>
-          <p class="adv-card-desc">面对高强度任务和多线并行的工作节奏时，能保持冷静、专注交付。始终以结果驱动行动，善于在压力下拆解问题、排定优先级，确保核心目标不偏移。</p>
+        <div class="h-panel-inner anim-adv">
+          <div class="adv-card-icon anim-ready"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
+          <h3 class="adv-card-title anim-ready">抗压与结果导向</h3>
+          <p class="adv-card-desc anim-ready">面对高强度任务和多线并行的工作节奏时，能保持冷静、专注交付。始终以结果驱动行动，善于在压力下拆解问题、排定优先级，确保核心目标不偏移。</p>
           <button class="go-btn" onclick="scrollH('h-adv',4)">
             下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
@@ -980,10 +1023,10 @@ body{
         </div>
       </div>
       <div class="h-panel" data-adv="4">
-        <div class="h-panel-inner">
-          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-          <h3 class="adv-card-title">快速学习与团队协作</h3>
-          <p class="adv-card-desc">具备快速上手新工具、新领域的能力，善于从文档、实战和他人经验中高效学习。在团队中乐于分享、主动补位，能够迅速融入并成为可依赖的协作者。</p>
+        <div class="h-panel-inner anim-adv">
+          <div class="adv-card-icon anim-ready"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <h3 class="adv-card-title anim-ready">快速学习与团队协作</h3>
+          <p class="adv-card-desc anim-ready">具备快速上手新工具、新领域的能力，善于从文档、实战和他人经验中高效学习。在团队中乐于分享、主动补位，能够迅速融入并成为可依赖的协作者。</p>
           <button class="go-btn" onclick="scrollH('h-adv',5)">
             下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
@@ -991,10 +1034,10 @@ body{
         </div>
       </div>
       <div class="h-panel" data-adv="5">
-        <div class="h-panel-inner">
-          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 20v-4"/><path d="M12 4v4"/><path d="M4 12h4"/><path d="M16 12h4"/></svg></div>
-          <h3 class="adv-card-title">数据敏感度</h3>
-          <p class="adv-card-desc">对数据有天然的敏感度，能够从繁杂的数据中快速识别异常与趋势。善于用数据说话，将定性问题转化为定量指标，辅助团队做出更精准的决策。</p>
+        <div class="h-panel-inner anim-adv">
+          <div class="adv-card-icon anim-ready"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 20v-4"/><path d="M12 4v4"/><path d="M4 12h4"/><path d="M16 12h4"/></svg></div>
+          <h3 class="adv-card-title anim-ready">数据敏感度</h3>
+          <p class="adv-card-desc anim-ready">对数据有天然的敏感度，能够从繁杂的数据中快速识别异常与趋势。善于用数据说话，将定性问题转化为定量指标，辅助团队做出更精准的决策。</p>
           <button class="go-btn" onclick="scrollH('h-adv',6)">
             下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
@@ -1002,10 +1045,10 @@ body{
         </div>
       </div>
       <div class="h-panel" data-adv="6">
-        <div class="h-panel-inner">
-          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3Z"/><path d="M19 9c0-1.7-1.3-3-3-3s-3 1.3-3 3 1.3 3 3 3 3-1.3 3-3Z"/><path d="M5 9c0-1.7 1.3-3 3-3s3 1.3 3 3-1.3 3-3 3-3-1.3-3-3Z"/><path d="M12 15c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3Z"/><path d="M19 15c0 1.7-1.3 3-3 3s-3-1.3-3-3 1.3-3 3-3 3 1.3 3 3Z"/></svg></div>
-          <h3 class="adv-card-title">市场洞察与创新</h3>
-          <p class="adv-card-desc">保持对行业动态和新兴趋势的关注，乐于思考产品与市场之间的关系。能够结合用户需求与商业逻辑，提出有创意的解决方案，不只做执行者，更想做创造者。</p>
+        <div class="h-panel-inner anim-adv">
+          <div class="adv-card-icon anim-ready"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3Z"/><path d="M19 9c0-1.7-1.3-3-3-3s-3 1.3-3 3 1.3 3 3 3 3-1.3 3-3Z"/><path d="M5 9c0-1.7 1.3-3 3-3s3 1.3 3 3-1.3 3-3 3-3-1.3-3-3Z"/><path d="M12 15c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3Z"/><path d="M19 15c0 1.7-1.3 3-3 3s-3-1.3-3-3 1.3-3 3-3 3 1.3 3 3Z"/></svg></div>
+          <h3 class="adv-card-title anim-ready">市场洞察与创新</h3>
+          <p class="adv-card-desc anim-ready">保持对行业动态和新兴趋势的关注，乐于思考产品与市场之间的关系。能够结合用户需求与商业逻辑，提出有创意的解决方案，不只做执行者，更想做创造者。</p>
           <button class="go-btn" onclick="scrollH('h-adv',7)">
             下一项 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
@@ -1013,10 +1056,10 @@ body{
         </div>
       </div>
       <div class="h-panel" data-adv="7">
-        <div class="h-panel-inner">
-          <div class="adv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 8v4l2 2"/></svg></div>
-          <h3 class="adv-card-title">AI 好奇心与落地能力</h3>
-          <p class="adv-card-desc">对 AI 技术保持强烈好奇心，积极将 AI 工具融入日常工作流，提升效率。不仅满足于「会用」，更追求「用好」——将 AI 能力与实际业务场景结合，产生可衡量的价值。</p>
+        <div class="h-panel-inner anim-adv">
+          <div class="adv-card-icon anim-ready"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 8v4l2 2"/></svg></div>
+          <h3 class="adv-card-title anim-ready">AI 好奇心与落地能力</h3>
+          <p class="adv-card-desc anim-ready">对 AI 技术保持强烈好奇心，积极将 AI 工具融入日常工作流，提升效率。不仅满足于「会用」，更追求「用好」——将 AI 能力与实际业务场景结合，产生可衡量的价值。</p>
           <button class="go-btn" onclick="scrollToSection(5)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
             查看项目
@@ -1033,7 +1076,7 @@ body{
       <span class="section-label">AI 项目</span>
       <h2 class="section-title">看看我做了什么</h2>
       <div class="projects-grid">
-        <div class="project-card" onclick="openVideo('public/videos/数据监控报警功能.mp4')">
+        <div class="project-card anim-ready" onclick="openVideo('public/videos/数据监控报警功能.mp4')">
           <div class="project-video-wrap">
             <video src="public/videos/数据监控报警功能.mp4" muted loop playsinline preload="metadata"></video>
             <div class="project-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
@@ -1041,7 +1084,7 @@ body{
           <div class="project-card-title">数据监控报警功能</div>
           <div class="project-card-desc">实时数据监控与智能报警</div>
         </div>
-        <div class="project-card" onclick="openVideo('public/videos/员工系统快速配置.mp4')">
+        <div class="project-card anim-ready" onclick="openVideo('public/videos/员工系统快速配置.mp4')">
           <div class="project-video-wrap">
             <video src="public/videos/员工系统快速配置.mp4" muted loop playsinline preload="metadata"></video>
             <div class="project-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
@@ -1049,7 +1092,7 @@ body{
           <div class="project-card-title">员工系统快速配置</div>
           <div class="project-card-desc">高效完成系统初始化与配置</div>
         </div>
-        <div class="project-card" onclick="openVideo('public/videos/数据搜索与图形化.mp4')">
+        <div class="project-card anim-ready" onclick="openVideo('public/videos/数据搜索与图形化.mp4')">
           <div class="project-video-wrap">
             <video src="public/videos/数据搜索与图形化.mp4" muted loop playsinline preload="metadata"></video>
             <div class="project-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
@@ -1057,7 +1100,7 @@ body{
           <div class="project-card-title">数据搜索与图形化</div>
           <div class="project-card-desc">智能搜索与可视化图表展示</div>
         </div>
-        <div class="project-card" onclick="openVideo('public/videos/根据多维度数据判断优先级.mp4')">
+        <div class="project-card anim-ready" onclick="openVideo('public/videos/根据多维度数据判断优先级.mp4')">
           <div class="project-video-wrap">
             <video src="public/videos/根据多维度数据判断优先级.mp4" muted loop playsinline preload="metadata"></video>
             <div class="project-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
@@ -1077,7 +1120,7 @@ body{
       <h2 class="section-title">其他领域的探索</h2>
       <p class="section-desc" style="margin-bottom:20px">比如电商</p>
       <div class="projects-grid">
-        <div class="project-card" onclick="openVideo('public/videos/利用多维表格对商品趋势进行分析.mp4')">
+        <div class="project-card anim-ready" onclick="openVideo('public/videos/利用多维表格对商品趋势进行分析.mp4')">
           <div class="project-video-wrap">
             <video src="public/videos/利用多维表格对商品趋势进行分析.mp4" muted loop playsinline preload="metadata"></video>
             <div class="project-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
@@ -1085,7 +1128,7 @@ body{
           <div class="project-card-title">商品趋势分析</div>
           <div class="project-card-desc">利用多维表格进行数据洞察</div>
         </div>
-        <div class="project-card" onclick="openVideo('public/videos/利用多维表格进行商品数据抓取.mp4')">
+        <div class="project-card anim-ready" onclick="openVideo('public/videos/利用多维表格进行商品数据抓取.mp4')">
           <div class="project-video-wrap">
             <video src="public/videos/利用多维表格进行商品数据抓取.mp4" muted loop playsinline preload="metadata"></video>
             <div class="project-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
@@ -1429,6 +1472,22 @@ body{
 
   updateUI(0);
 })();
-</script>
+  // ========== SCROLL REVEAL ANIMATIONS ==========
+  var revealObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var container = entry.target;
+        var items = container.querySelectorAll('.anim-ready');
+        items.forEach(function(el,i){
+          setTimeout(function(){el.classList.add('anim-go')}, i*10);
+        });
+      }
+    });
+  },{threshold:0.2});
+  document.querySelectorAll('.anim-intro,.anim-hero,.anim-detail,.anim-adv,.anim-projects').forEach(function(el){
+    revealObserver.observe(el);
+  });
+
+  </script>
 </body>
 </html>
