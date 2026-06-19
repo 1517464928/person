@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
@@ -120,6 +120,10 @@ export default function PersonalExperience() {
         setItems(d.experiences || []);
         setAdvantages(d.advantages || []);
         setLoading(false);
+        // Fix: reset scroll position to avoid auto-jumping to last screen
+        requestAnimationFrame(() => {
+          scrollRef.current?.scrollTo(0, 0);
+        });
       })
       .catch(() => setLoading(false));
   }, []);
@@ -306,7 +310,11 @@ export default function PersonalExperience() {
             className="h-dvh w-full snap-start relative overflow-hidden"
           >
             {screen.type === "intro" && (
-              <IntroScreen isActive={activeIndex === i} reducedMotion={reducedMotion} />
+              <IntroScreen
+                isActive={activeIndex === i}
+                reducedMotion={reducedMotion}
+                onExplore={() => scrollToScreen(1)}
+              />
             )}
             {screen.type === "experience" && screen.exp && (
               <ExperiencePages
@@ -334,12 +342,20 @@ export default function PersonalExperience() {
             )}
             {screen.type === "cta" && (
               <div data-screen="cta" className="h-full w-full">
-                <ProjectsScreen isActive={activeIndex === i} reducedMotion={reducedMotion} />
+                <ProjectsScreen
+                  isActive={activeIndex === i}
+                  reducedMotion={reducedMotion}
+                  screenIndex={i}
+                />
               </div>
             )}
             {screen.type === "cta2" && (
               <div data-screen="cta2" className="h-full w-full">
-                <ProjectsScreen2 isActive={activeIndex === i} reducedMotion={reducedMotion} />
+                <ProjectsScreen2
+                  isActive={activeIndex === i}
+                  reducedMotion={reducedMotion}
+                  screenIndex={i}
+                />
               </div>
             )}
             {screen.type === "askme" && (
@@ -385,7 +401,15 @@ export default function PersonalExperience() {
   );
 }
 
-function IntroScreen({ isActive, reducedMotion }: { isActive: boolean; reducedMotion: boolean }) {
+function IntroScreen({
+  isActive,
+  reducedMotion,
+  onExplore,
+}: {
+  isActive: boolean;
+  reducedMotion: boolean;
+  onExplore?: () => void;
+}) {
   const variants = introVariants(reducedMotion);
 
   return (
@@ -418,6 +442,17 @@ function IntroScreen({ isActive, reducedMotion }: { isActive: boolean; reducedMo
         向下滚动，探索我的教育、实习、创业与校园经历。
       </motion.p>
 
+      <motion.button
+        variants={variants}
+        initial="hidden"
+        animate={isActive ? "visible" : "hidden"}
+        custom={0.3}
+        onClick={onExplore}
+        className="mt-10 inline-flex items-center gap-2 px-8 py-4 bg-[#f97316] text-white rounded-full text-lg font-medium hover:bg-[#ea580c] transition-colors cursor-pointer"
+      >
+        开始探索 <ChevronDown size={20} />
+      </motion.button>
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={isActive ? { opacity: 1 } : { opacity: 0 }}
@@ -436,8 +471,21 @@ function IntroScreen({ isActive, reducedMotion }: { isActive: boolean; reducedMo
   );
 }
 
-function ProjectsScreen({ isActive, reducedMotion }: { isActive: boolean; reducedMotion: boolean }) {
+function ProjectsScreen({
+  isActive,
+  reducedMotion,
+  screenIndex,
+}: {
+  isActive: boolean;
+  reducedMotion: boolean;
+  screenIndex: number;
+}) {
   const variants = projectsVariants(reducedMotion);
+
+  const handleExplore = () => {
+    const el = document.querySelector(`[data-index="${screenIndex + 1}"]`) as HTMLElement;
+    if (el) el.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+  };
 
   return (
     <div className="h-full w-full overflow-y-auto scrollbar-hide py-16 px-6">
@@ -455,12 +503,39 @@ function ProjectsScreen({ isActive, reducedMotion }: { isActive: boolean; reduce
           saveId="projects"
         />
       </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={isActive ? { opacity: 1 } : { opacity: 0 }}
+        transition={reducedMotion ? { duration: 0 } : { duration: 0.5, delay: 0.6 }}
+        className="flex justify-center mt-10 pb-4"
+      >
+        <button
+          onClick={handleExplore}
+          className="inline-flex items-center gap-2 px-8 py-4 bg-[#f97316] text-white rounded-full text-lg font-medium hover:bg-[#ea580c] transition-colors cursor-pointer"
+        >
+          开始探索 <ChevronDown size={20} />
+        </button>
+      </motion.div>
     </div>
   );
 }
 
-function ProjectsScreen2({ isActive, reducedMotion }: { isActive: boolean; reducedMotion: boolean }) {
+function ProjectsScreen2({
+  isActive,
+  reducedMotion,
+  screenIndex,
+}: {
+  isActive: boolean;
+  reducedMotion: boolean;
+  screenIndex: number;
+}) {
   const variants = projectsVariants(reducedMotion);
+
+  const handleExplore = () => {
+    const el = document.querySelector(`[data-index="${screenIndex + 1}"]`) as HTMLElement;
+    if (el) el.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+  };
 
   return (
     <div className="h-full w-full overflow-y-auto scrollbar-hide py-16 px-6">
@@ -477,6 +552,20 @@ function ProjectsScreen2({ isActive, reducedMotion }: { isActive: boolean; reduc
           filterFn={(items) => items.slice(4, 6)}
           saveId="projects2"
         />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={isActive ? { opacity: 1 } : { opacity: 0 }}
+        transition={reducedMotion ? { duration: 0 } : { duration: 0.5, delay: 0.6 }}
+        className="flex justify-center mt-10 pb-4"
+      >
+        <button
+          onClick={handleExplore}
+          className="inline-flex items-center gap-2 px-8 py-4 bg-[#f97316] text-white rounded-full text-lg font-medium hover:bg-[#ea580c] transition-colors cursor-pointer"
+        >
+          开始探索 <ChevronDown size={20} />
+        </button>
       </motion.div>
     </div>
   );
