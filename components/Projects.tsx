@@ -6,9 +6,21 @@ import Reveal from "./ui/Reveal";
 import { useEditMode } from "./EditMode";
 import type { ProjectData } from "@/lib/types";
 
-const SAVE_ID = "projects";
+interface ProjectsSectionProps {
+  title?: string;
+  subtitle?: string;
+  footerText?: string;
+  filterFn?: (items: ProjectData[]) => ProjectData[];
+  saveId?: string;
+}
 
-export default function ProjectsSection() {
+export default function ProjectsSection({
+  title = "AI 项目",
+  subtitle = "看看我做了什么",
+  footerText,
+  filterFn,
+  saveId = "projects",
+}: ProjectsSectionProps = {}) {
   const { isEditing, registerSave, unregisterSave, setHasUnsavedChanges } = useEditMode();
   const [items, setItems] = useState<ProjectData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,9 +51,9 @@ export default function ProjectsSection() {
   }, []);
 
   useEffect(() => {
-    registerSave(SAVE_ID, saveFn);
-    return () => unregisterSave(SAVE_ID);
-  }, [registerSave, unregisterSave, saveFn]);
+    registerSave(saveId, saveFn);
+    return () => unregisterSave(saveId);
+  }, [registerSave, unregisterSave, saveFn, saveId]);
 
   const add = () => {
     const newProj: ProjectData = {
@@ -70,8 +82,16 @@ export default function ProjectsSection() {
 
   if (loading) return null;
 
+  const filtered = filterFn ? filterFn(items) : items;
+
   return (
     <section className="py-8 px-4 max-w-6xl mx-auto">
+      {/* Title */}
+      <div className="text-center mb-8">
+        <h2 className="text-4xl md:text-6xl font-bold text-[#1a1a1a] mb-4">{title}</h2>
+        <p className="text-lg text-[#1a1a1a]/60">{subtitle}</p>
+      </div>
+
       {isEditing && (
         <div className="flex justify-center mb-6">
           <button
@@ -83,11 +103,11 @@ export default function ProjectsSection() {
         </div>
       )}
 
-      {!items.length && !isEditing ? (
+      {!filtered.length && !isEditing ? (
         <p className="text-center text-[#1a1a1a]/40 py-12">暂无项目</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {items.map((p, i) => (
+          {filtered.map((p, i) => (
             <Reveal key={p.id} delay={i * 0.1} y={30}>
               <Card className="group hover:shadow-lg transition-shadow duration-300 relative bg-white/80 backdrop-blur overflow-hidden">
                 {isEditing && (
@@ -198,6 +218,10 @@ export default function ProjectsSection() {
             </Reveal>
           ))}
         </div>
+      )}
+
+      {footerText && filtered.length > 0 && (
+        <p className="text-center text-xs text-[#1a1a1a]/30 mt-8">{footerText}</p>
       )}
 
       {/* 视频播放弹窗 */}

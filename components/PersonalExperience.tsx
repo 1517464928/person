@@ -129,6 +129,7 @@ export default function PersonalExperience() {
     ...items.map((exp) => ({ type: "experience" as const, exp })),
     { type: "advantages" as const },
     { type: "cta" as const },
+    { type: "cta2" as const },
     { type: "askme" as const },
   ];
 
@@ -336,6 +337,11 @@ export default function PersonalExperience() {
                 <ProjectsScreen isActive={activeIndex === i} reducedMotion={reducedMotion} />
               </div>
             )}
+            {screen.type === "cta2" && (
+              <div data-screen="cta2" className="h-full w-full">
+                <ProjectsScreen2 isActive={activeIndex === i} reducedMotion={reducedMotion} />
+              </div>
+            )}
             {screen.type === "askme" && (
               <AskMeScreen isActive={activeIndex === i} reducedMotion={reducedMotion} />
             )}
@@ -440,12 +446,37 @@ function ProjectsScreen({ isActive, reducedMotion }: { isActive: boolean; reduce
         initial="hidden"
         animate={isActive ? "visible" : "hidden"}
         custom={0}
-        className="text-center mb-8"
       >
-        <h2 className="text-4xl md:text-6xl font-bold text-[#1a1a1a] mb-4">AI 项目</h2>
-        <p className="text-lg text-[#1a1a1a]/60">看看我做了什么</p>
+        <ProjectsSection
+          title="AI 项目"
+          subtitle="看看我做了什么"
+          footerText="关键数据保密需要，以上演示均用模拟网站演示"
+          filterFn={(items) => items.slice(0, 4)}
+          saveId="projects"
+        />
       </motion.div>
-      <ProjectsSection />
+    </div>
+  );
+}
+
+function ProjectsScreen2({ isActive, reducedMotion }: { isActive: boolean; reducedMotion: boolean }) {
+  const variants = projectsVariants(reducedMotion);
+
+  return (
+    <div className="h-full w-full overflow-y-auto scrollbar-hide py-16 px-6">
+      <motion.div
+        variants={variants}
+        initial="hidden"
+        animate={isActive ? "visible" : "hidden"}
+        custom={0}
+      >
+        <ProjectsSection
+          title="AI 项目"
+          subtitle="其他领域（比如电商）的探索"
+          filterFn={(items) => items.slice(4, 6)}
+          saveId="projects2"
+        />
+      </motion.div>
     </div>
   );
 }
