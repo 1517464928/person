@@ -106,11 +106,25 @@ export default function PersonalExperience() {
   const [advantageTotal, setAdvantageTotal] = useState(1);
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const didInitialLoad = useRef(false);
   const screenRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Ref mirror of items so the registered save fn always reads the latest state.
   const itemsRef = useRef<ExperienceData[]>(items);
   useEffect(() => { itemsRef.current = items; }, [items]);
+  // After data loads and DOM updates, force scroll to top
+  useEffect(() => {
+    if (loading || didInitialLoad.current || items.length === 0) return;
+    didInitialLoad.current = true;
+    // Snap-scroll can override single scrollTo — brute force with multiple attempts
+    const force = () => {
+      scrollRef.current?.scrollTo(0, 0);
+      requestAnimationFrame(() => scrollRef.current?.scrollTo(0, 0));
+      setTimeout(() => scrollRef.current?.scrollTo(0, 0), 100);
+      setTimeout(() => scrollRef.current?.scrollTo(0, 0), 300);
+    };
+    force();
+  }, [items.length, loading]);
 
   useEffect(() => {
     setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -120,10 +134,7 @@ export default function PersonalExperience() {
         setItems(d.experiences || []);
         setAdvantages(d.advantages || []);
         setLoading(false);
-        // Fix: reset scroll position to avoid auto-jumping to last screen
-        requestAnimationFrame(() => {
-          scrollRef.current?.scrollTo(0, 0);
-        });
+        didInitialLoad.current = false;
       })
       .catch(() => setLoading(false));
   }, []);
